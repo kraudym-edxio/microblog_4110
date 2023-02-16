@@ -30,6 +30,7 @@ pipeline {
     }
     stage('Integration Tests') {
         steps {
+            sh 'pip install flask'
             sh 'python3 tests.py'
         }
     }
