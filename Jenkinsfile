@@ -5,7 +5,7 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://3.134.108.217:5000/"
+      BUILD_URL = "http://3.18.111.17:5000/"
   }
   
   stages {
@@ -30,7 +30,7 @@ pipeline {
     }
     stage('Integration Tests') {
         steps {
-            echo 'integration tests'
+            sh 'python3 tests.py'
         }
     }
   }
