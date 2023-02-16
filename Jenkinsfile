@@ -5,7 +5,7 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://3.18.111.17:5000/"
+      BUILD_URL = "http://3.145.23.148:5000/"
   }
   
   stages {
@@ -20,6 +20,12 @@ pipeline {
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
+     stage('SonarQube analysis') {
+    
+      steps {
+        echo 'SonarQube analysis'
+      }
+    }
     stage('Deploy') {
       steps {
           echo 'Deploying'
@@ -28,14 +34,17 @@ pipeline {
           sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
-    stage('Integration Tests') {
+    stage('Integration tests') {
         steps {
-          echo 'integration tests'
+          echo 'Integration tests'
         }
     }
   }
 
     post {
+        always {
+          echo 'Finished'
+        }
       success {
           echo 'Pipeline succeeded'
       }
