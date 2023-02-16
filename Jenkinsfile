@@ -30,7 +30,10 @@ pipeline {
     }
     stage('Integration Tests') {
         steps {
-            sh 'python3 tests.py'
+          def container = docker.container("${env.CONTAINER_NAME}")
+          container.inside {
+              sh 'python3 tests.py'
+          }
         }
     }
   }
