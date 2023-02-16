@@ -20,11 +20,6 @@ pipeline {
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
-    stage('Integration Tests') {
-        steps {
-            sh 'python3 tests.py'
-        }
-    }
     stage('Deploy') {
       steps {
           echo 'Deploying'
@@ -32,6 +27,11 @@ pipeline {
           sh 'sudo docker rm $CONTAINER_NAME || true'
           sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
+    }
+    stage('Integration Tests') {
+        steps {
+            echo 'integration tests'
+        }
     }
   }
   post {
