@@ -5,7 +5,7 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://3.15.180.236:5000/"
+      BUILD_URL = "http://3.145.23.148:5000/"
   }
   
   stages {
@@ -20,9 +20,10 @@ pipeline {
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
-    stage('Test') {
+     stage('SonarQube analysis') {
+    
       steps {
-          echo 'testing'
+        echo 'SonarQube analysis'
       }
     }
     stage('Deploy') {
@@ -33,5 +34,24 @@ pipeline {
           sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
+    stage('Integration tests') {
+        steps {
+          echo 'Integration tests'
+        }
+    }
   }
+
+    post {
+        always {
+          echo 'Finished'
+        }
+      success {
+          echo 'Pipeline succeeded'
+      }
+      failure {
+          echo 'Pipeline failed'
+          discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
+
+      }
+    }
 }
