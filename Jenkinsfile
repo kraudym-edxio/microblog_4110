@@ -26,7 +26,7 @@ pipeline {
       steps {
 
     		withSonarQubeEnv(installationName: 'SonarQube') {
-				sh "/usr/local/bin/sonar-scanner"    		    
+				sh "/usr/local/bin/sonar-scanner -Dsonar.projectKey=projectkey -Dsonar.sources=."    		    
     		}
       }
     }
