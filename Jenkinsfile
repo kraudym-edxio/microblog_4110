@@ -6,7 +6,7 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://172.22.127.61:5000/"
+      BUILD_URL = "http://172.22.117.109:5000/"
   }
   
   stages {
