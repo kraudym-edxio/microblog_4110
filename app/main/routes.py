@@ -230,3 +230,14 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+@bp.route('/favourites')
+@login_required
+def favourites():
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    posts = user.favourite_posts.order_by(Post.timestamp.desc()).paginate(page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.favourites', page=posts.next_num) if posts.has_next else None
+    prev_url = url_for('main.favourites', page=posts.prev_num) if posts.has_prev else None
+    return render_template('favourites.html', title=_('Favorites'), posts=posts.items, next_url=next_url, prev_url=prev_url)
+
