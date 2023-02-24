@@ -235,7 +235,7 @@ def notifications():
 @login_required
 def favourites():
     page = request.args.get('page', 1, type=int)
-    favourites = Favourite.query.filter_by(author=current_user)\
+    favourites = Favourite.query.filter_by(current_id=current_user.id)\
                   .order_by(Favourite.timestamp.desc())\
                   .paginate(page=page,
                             per_page=current_app.config['POSTS_PER_PAGE'],
@@ -250,10 +250,12 @@ def favourites():
 
 
 @bp.route('/add_to_favorites', methods=['POST'])
+@login_required
 def add_to_favorites():
     post_id = request.form.get('post_id')
     post = Post.query.get(post_id)
-    favourite = Favourite(body=post.body, author=current_user)
+    favourite = Favourite(body=post.body, current_id=current_user.id, author=post.author, timestamp=post.timestamp)
+    print(current_user.id);
     db.session.add(favourite)
     db.session.commit()
     return redirect(url_for('main.user', username=post.author.username))
