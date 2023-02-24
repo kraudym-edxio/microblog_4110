@@ -235,9 +235,11 @@ def notifications():
 @login_required
 def favourites():
     page = request.args.get('page', 1, type=int)
-    favourites = Favourite.query.order_by(Favourite.timestamp.desc()).paginate(
-        page=page, per_page=current_app.config['POSTS_PER_PAGE'],
-        error_out=False)
+    favourites = Favourite.query.filter_by(author=current_user)\
+                  .order_by(Favourite.timestamp.desc())\
+                  .paginate(page=page,
+                            per_page=current_app.config['POSTS_PER_PAGE'],
+                            error_out=False)
     next_url = url_for('main.favourites', page=favourites.next_num) \
         if favourites.has_next else None
     prev_url = url_for('main.favourites', page=favourites.prev_num) \
