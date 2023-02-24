@@ -114,6 +114,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     notifications = db.relationship('Notification', backref='user',
                                     lazy='dynamic')
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
+    favourites = db.relationship('Favourite', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -202,7 +203,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
                 'followers': url_for('api.get_followers', id=self.id),
                 'followed': url_for('api.get_followed', id=self.id),
                 'avatar': self.avatar(128)
-            }
+            },
+            'favourite_count': self.favourites.count(),
         }
         if include_email:
             data['email'] = self.email
@@ -238,6 +240,9 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+# TODO add favourite to db
 
 
 class Post(SearchableMixin, db.Model):
@@ -291,3 +296,15 @@ class Task(db.Model):
     def get_progress(self):
         job = self.get_rq_job()
         return job.meta.get('progress', 0) if job is not None else 100
+
+class Favourite(SearchableMixin, db.Model):
+    __searchable__ = ['body']
+    id = db.Column(db.Integer, primary_key=True)
+    post = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(140))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    language = db.Column(db.String(5))
+
+    def __repr__(self):
+        return '<Favourite {}>'.format(self.body)
