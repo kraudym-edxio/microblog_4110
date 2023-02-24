@@ -259,3 +259,12 @@ def add_to_favorites():
     db.session.add(favourite)
     db.session.commit()
     return redirect(url_for('main.user', username=post.author.username))
+
+@bp.route('/delete_post', methods=['POST'])
+@login_required
+def delete_post():
+    post_id = request.form.get('post_id')
+    post = Post.query.get(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('main.user', username=post.author.username))
