@@ -15,7 +15,7 @@
                 {% endset %}
                 {{ _('%(username)s said %(when)s',
                     username=user_link, when=moment(post.timestamp).fromNow()) }}
-                <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="addToFavorites('{{ post.id }}')">Favorite</button>
+                <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="addToFavorites('{{ post.id }}')">Favourite</button>
                 {% if current_user == post.author %}
                     <button class="btn btn-sm btn-outline-danger float-right" type="button" onclick="deletePost('{{ post.id }}')">Delete</button>
                 {% endif %}
