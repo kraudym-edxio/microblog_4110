@@ -1,14 +1,14 @@
     <table class="table table-hover">
         <tr>
             <td width="70px">
-                <a href="{{ url_for('main.user', username=favourite.author.username) }}">
+                <a href="{{ url_for('main.user', username=favourite.author) }}">
                     <img src="{{ favourite.author.avatar(70) }}" />
                 </a>
             </td>
             <td>
                 {% set user_link %}
                     <span class="user_popup">
-                        <a href="{{ url_for('main.user', username=favourite.author.username) }}">
+                        <a href="{{ url_for('main.user', username=favourite.author) }}">
                             {{ favourite.author.username }}
                         </a>
                     </span>
