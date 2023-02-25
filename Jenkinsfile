@@ -6,13 +6,13 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://172.22.117.109:5000/"
+      BUILD_URL = "http://18.219.161.171:5000/"
   }
   
   stages {
     stage('Checkout') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '353d0ea9-ea5a-4012-91cc-887fcd6abfee', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
     stage('Build') {
