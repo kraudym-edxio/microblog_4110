@@ -29,6 +29,16 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    app.config['SECRET_KEY'] = 'my_key_here'
+    app.config['SECURITY_PASSWORD_SALT'] = 'my_salt_value'
+
+    # app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    # app.config['MAIL_PORT'] = 587
+    # app.config['MAIL_USE_TLS'] = True
+    # app.config['MAIL_USERNAME'] = 'edxiokraudy@gmail.com'
+    # app.config['MAIL_PASSWORD'] = 'chucknorris123'
+    # app.config['MAIL_DEFAULT_SENDER'] = 'edxiokraudy@gmail.com'
+
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
