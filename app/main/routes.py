@@ -7,7 +7,7 @@ from langdetect import detect, LangDetectException
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm, \
     MessageForm
-from app.models import User, Post, Message, Notification
+from app.models import User, Post, Message, Notification, Reaction
 from app.translate import translate
 from app.main import bp
 
@@ -230,3 +230,22 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+@bp.route('/react_to_post', methods=['POST'])
+@login_required
+def react_to_post():
+    post_id = request.form.get('post_id')
+    reaction = request.form.get('reaction')
+    user_id = request.form.get('currentuser')
+    print(post_id, ' ', reaction, ' ', user_id)
+    post_react = Reaction(user_id=user_id, post_id=post_id, reaction_type=reaction)
+    #check if current user already reacted to post
+        #if yes,
+            #if it is a different reaction
+                #delete the existing reaction, and then add the new reaction
+            #if it is the same reaction
+                #delete the existing reaction
+    #https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/
+    #db.session.add(post_react)
+    #db.session.commit()
+    return jsonify({'message': 'Reaction added successfully'})
