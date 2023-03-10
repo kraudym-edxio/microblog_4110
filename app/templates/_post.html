@@ -27,7 +27,7 @@
                   &nbsp;
                   <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'dislike', '{{current_user.id}}')">
                     👎
-                    <span id="dislikecount">{{ post.dislike }}</span>
+                    <span id="dislikecount">{{ post.reaction_dislike }}</span>
                   </button>
                   &nbsp;
                   <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'heart', '{{current_user.id}}')">

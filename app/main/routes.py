@@ -246,20 +246,119 @@ def react_to_post():
         db.session.add(post_react)
         print('added post reaction')
         db.session.commit()
-
+        if post_react.reaction_type == 'like':
+            print('like type reaction')
+            current_post.reaction_like+=1
+            db.session.add(current_post)
+            db.session.commit()
+        if post_react.reaction_type == 'dislike':
+            print('dislike type reaction')
+            current_post.reaction_dislike += 1
+            db.session.add(current_post)
+            db.session.commit()
+        if post_react.reaction_type == 'heart':
+            print('heart type reaction')
+            current_post.reaction_heart += 1
+            db.session.add(current_post)
+            db.session.commit()
+        if post_react.reaction_type == 'laugh':
+            print('laugh type reaction')
+            current_post.reaction_laugh += 1
+            db.session.add(current_post)
+            db.session.commit()
+        if post_react.reaction_type == 'angry':
+            print('angry type reaction')
+            current_post.reaction_angry += 1
+            db.session.add(current_post)
+            db.session.commit()
     else: #reaction already exists
         print("already reacted to post")
         if already_reacted.reaction_type == post_react.reaction_type: #undo the reaction
             print('undo the reaction')
             db.session.delete(already_reacted)
             db.session.commit()
+            if post_react.reaction_type == 'like':
+                print('like type reaction')
+                current_post.reaction_like -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'dislike':
+                print('dislike type reaction')
+                current_post.reaction_dislike -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'heart':
+                print('heart type reaction')
+                current_post.reaction_heart -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'laugh':
+                print('laugh type reaction')
+                current_post.reaction_laugh -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'angry':
+                print('angry type reaction')
+                current_post.reaction_angry -= 1
+                db.session.add(current_post)
+                db.session.commit()
             print('done')
         else: #delete the old reaction, and add the new reaction (reaction changed)
             print('undo the old reaction')
             db.session.delete(already_reacted)
             db.session.commit()
+            if already_reacted.reaction_type == 'like':
+                print('like type reaction')
+                current_post.reaction_like -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if already_reacted.reaction_type == 'dislike':
+                print('dislike type reaction')
+                current_post.reaction_dislike -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if already_reacted.reaction_type == 'heart':
+                print('heart type reaction')
+                current_post.reaction_heart -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if already_reacted.reaction_type == 'laugh':
+                print('laugh type reaction')
+                current_post.reaction_laugh -= 1
+                db.session.add(current_post)
+                db.session.commit()
+            if already_reacted.reaction_type == 'angry':
+                print('angry type reaction')
+                current_post.reaction_angry -= 1
+                db.session.add(current_post)
+                db.session.commit()
             print('add the new reaction')
             db.session.add(post_react)
             db.session.commit()
+            if post_react.reaction_type == 'like':
+                print('like type reaction')
+                current_post.reaction_like += 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'dislike':
+                print('dislike type reaction')
+                current_post.reaction_dislike += 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'heart':
+                print('heart type reaction')
+                current_post.reaction_heart += 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'laugh':
+                print('laugh type reaction')
+                current_post.reaction_laugh += 1
+                db.session.add(current_post)
+                db.session.commit()
+            if post_react.reaction_type == 'angry':
+                print('angry type reaction')
+                current_post.reaction_angry += 1
+                db.session.add(current_post)
+                db.session.commit()
             print('done')
     return jsonify({'message': 'Reaction added successfully'})
