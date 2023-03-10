@@ -9,20 +9,8 @@ previous_url = ''
 def step_impl(context):
     print('here 10222')
     pass
-    # driver = webdriver.Chrome()
-    # driver.maximize_window()
     context.driver.get(config.base_url)
-    # headlines = driver.find_elements_by_class_name("story-heading")
-    # for headline in headlines:
-    #     print(headline.text.strip()) 
-    # context.driver = driver
-
     
-
-@when(u'I enter my valid credentials')
-def step_impl(context):
-    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, "test714")
-    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, "test714")
 
 @when(u'click the login button')
 def step_impl(context):
