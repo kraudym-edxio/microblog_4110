@@ -19,6 +19,33 @@
                 <span id="post{{ post.id }}">{{ post.body }}</span>
                 {% if post.language and post.language != g.locale %}
                 <br><br>
+                <span>
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'like', '{{current_user.id}}')">
+                    👍
+                    <span id="likecount">5</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'dislike', '{{current_user.id}}')">
+                    👎
+                    <span id="dislikecount">4</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'heart', '{{current_user.id}}')">
+                    ❤️
+                    <span id="heartcount">3</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'laugh', '{{current_user.id}}')">
+                    😂
+                    <span id="laughcount">2</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'angry', '{{current_user.id}}')">
+                    😡
+                    <span id="angrycount">1</span>
+                  </button>
+                </span>
+                <br>
                 <span id="translation{{ post.id }}">
                     <a href="javascript:translate(
                                 '#post{{ post.id }}',
