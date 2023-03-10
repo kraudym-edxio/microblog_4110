@@ -240,12 +240,24 @@ def react_to_post():
     print(post_id, ' ', reaction, ' ', user_id)
     post_react = Reaction(user_id=user_id, post_id=post_id, reaction_type=reaction)
     #check if current user already reacted to post
-        #if yes,
-            #if it is a different reaction
-                #delete the existing reaction, and then add the new reaction
-            #if it is the same reaction
-                #delete the existing reaction
-    #https://flask-sqlalchemy.palletsprojects.com/en/2.x/queries/
-    #db.session.add(post_react)
-    #db.session.commit()
+    already_reacted=Reaction.query.filter_by(user_id= user_id, post_id= post_id).first();
+    if already_reacted is None: #first time reacting
+        db.session.add(post_react)
+        print('added post reaction')
+        db.session.commit()
+    else: #reaction already exists
+        print("already reacted to post")
+        if already_reacted.reaction_type == post_react.reaction_type: #undo the reaction
+            print('undo the reaction')
+            db.session.delete(already_reacted)
+            db.session.commit()
+            print('done')
+        else: #delete the old reaction, and add the new reaction (reaction changed)
+            print('undo the old reaction')
+            db.session.delete(already_reacted)
+            db.session.commit()
+            print('add the new reaction')
+            db.session.add(post_react)
+            db.session.commit()
+            print('done')
     return jsonify({'message': 'Reaction added successfully'})

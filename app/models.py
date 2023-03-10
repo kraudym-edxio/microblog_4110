@@ -262,7 +262,6 @@ class Message(db.Model):
     def __repr__(self):
         return '<Message {}>'.format(self.body)
 
-
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), index=True)
@@ -299,4 +298,4 @@ class Reaction(db.Model):
     reaction_type = db.Column(db.String(128))
 
     def __repr__(self):
-        return '<Reaction {}>'.format(self.body)
+        return '<Reaction {}>'.format(self.reaction_type)
