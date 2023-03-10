@@ -240,11 +240,13 @@ def react_to_post():
     print(post_id, ' ', reaction, ' ', user_id)
     post_react = Reaction(user_id=user_id, post_id=post_id, reaction_type=reaction)
     #check if current user already reacted to post
-    already_reacted=Reaction.query.filter_by(user_id= user_id, post_id= post_id).first();
+    already_reacted=Reaction.query.filter_by(user_id= user_id, post_id= post_id).first()
+    current_post=Post.query.filter_by(id=post_id).first()
     if already_reacted is None: #first time reacting
         db.session.add(post_react)
         print('added post reaction')
         db.session.commit()
+
     else: #reaction already exists
         print("already reacted to post")
         if already_reacted.reaction_type == post_react.reaction_type: #undo the reaction
