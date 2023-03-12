@@ -38,3 +38,15 @@ nosetests.xml
 venv
 app.db
 microblog.log*
+migrations/alembic.ini
+migrations/alembic.ini
+migrations/env.py
+migrations/script.py.mako
+migrations/versions/2e2d931c9c5c_.py
+migrations/versions/75a55553a55c_.py
+migrations/versions/812678f02220_.py
+migrations/versions/87edf2358c8e_.py
+migrations/versions/8fbced5afd51_.py
+migrations/versions/b0955c8bfc12_.py
+migrations/versions/d0ca9aa1d1d2_.py
+migrations/versions/d88926382130_.py
