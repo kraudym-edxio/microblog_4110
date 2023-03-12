@@ -50,7 +50,6 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        send_verification_email(user)
         flash(_('Congratulations, you are now a registered user!'))
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title=_('Register'),
@@ -58,7 +57,6 @@ def register():
 
 
 @bp.route('/verify_email/<token>')
-@login_required
 def verify_email(token):
     try:
         data = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=['HS256'])
@@ -81,9 +79,7 @@ def verify_email(token):
         return redirect(url_for('main.index'))
 
     user.is_verified = True
-    db.session.add(user)
     db.session.commit()
-
     flash('Congratulations, your email address has been verified!', 'success')
     return redirect(url_for('main.index'))
 

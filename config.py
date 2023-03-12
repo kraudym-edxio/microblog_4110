@@ -12,18 +12,13 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
-    # MAIL_SERVER = os.environ.get('MAIL_SERVER')
-    # MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
-    # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
-    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587  #
     MAIL_USE_TLS = True
-    MAIL_USERNAME = 'edxiokraudy@gmail.com'
-    MAIL_PASSWORD = 'nmtvqslrpyrpynty'
-    MAIL_DEFAULT_SENDER = 'edxiokraudy@gmail.com'
-    ADMINS = ['edxiokraudy@gmail.com']
+    MAIL_USERNAME = 'COMP4110w23@gmail.com'
+    MAIL_PASSWORD = 'tdxysmxnocrabeee'
+    MAIL_DEFAULT_SENDER = 'COMP4110w23@gmail.com'
+    ADMINS = ['COMP4110w23@gmail.com']
     LANGUAGES = ['en', 'es']
     MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
