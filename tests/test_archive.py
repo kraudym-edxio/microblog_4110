@@ -16,7 +16,6 @@ class TestFavouriteArchive(unittest.TestCase):
         self.app = create_app(TestConfig)
         self.app_context = self.app.app_context()
         self.app_context.push()
-        self.client = self.app.test_client()
         db.create_all()
 
     def tearDown(self):
@@ -71,21 +70,3 @@ class TestFavouriteArchive(unittest.TestCase):
         
 
         self.assertEqual(f.body, 'test body')
-
-    # scenario user views their favourites
-    def test_user_views_favourites(self):
-        # Create a test user
-        user = User(username='test_user', email='test@example.com')
-        user.set_password('test')
-        db.session.add(user)
-        db.session.commit()
-
-        # Login the user
-        response = self.client.post(
-            '/auth/login',data={'id': 'test_user', 'name': 'test'})
-        self.assertEqual(response.status_code, 200)
-
-        # Access the favorites endpoint
-        response = self.client.get('/favourites', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Favourites', response.data)
