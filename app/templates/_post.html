@@ -20,6 +20,33 @@
                 <span id="post{{ post.id }}">{{ post.body }}</span>
                 {% if post.language and post.language != g.locale %}
                 <br><br>
+                <span>
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'like', '{{current_user.id}}')">
+                    👍
+                    <span id="likecount">{{ post.reaction_like }}</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'dislike', '{{current_user.id}}')">
+                    👎
+                    <span id="dislikecount">{{ post.reaction_dislike }}</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'heart', '{{current_user.id}}')">
+                    ❤️
+                    <span id="heartcount">{{ post.reaction_heart }}</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'laugh', '{{current_user.id}}')">
+                    😂
+                    <span id="laughcount">{{ post.reaction_laugh }}</span>
+                  </button>
+                  &nbsp;
+                  <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="react_to_post('{{ post.id }}', 'angry', '{{current_user.id}}')">
+                    😡
+                    <span id="angrycount">{{ post.reaction_angry }}</span>
+                  </button>
+                </span>
+                <br>
                 <span id="translation{{ post.id }}">
                     <a href="javascript:translate(
                                 '#post{{ post.id }}',
@@ -48,3 +75,21 @@
             xhr.send('post_id=' + post_id);
         }
         </script>
+
+<script>
+  function react_to_post(post_id, reaction, currentuser) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/react_to_post');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // success
+                location.reload(); // reload the page
+            }
+            else if (xhr.status !== 200) {
+                // error
+            }
+        };
+        xhr.send('post_id=' + post_id+'&reaction='+ reaction+'&currentuser=' + currentuser);
+  }
+</script>

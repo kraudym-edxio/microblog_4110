@@ -29,6 +29,9 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    app.config['SECRET_KEY'] = 'my_key_here'
+    app.config['SECURITY_PASSWORD_SALT'] = 'my_salt_value'
+
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
