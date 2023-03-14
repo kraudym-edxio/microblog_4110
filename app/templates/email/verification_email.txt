@@ -1,0 +1,12 @@
+Hello,
+
+To confirm your email address, please click on the following link or copy it into your web browser:
+
+{{ url_for('auth.verify_email', token=token, _external=True) }}
+
+This link will expire in 24 hours.
+
+If you did not request this email, please ignore it.
+
+Best regards,
+The Microblog Team
