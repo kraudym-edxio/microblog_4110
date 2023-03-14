@@ -7,6 +7,7 @@ from langdetect import detect, LangDetectException
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm, \
     MessageForm
+
 from app.models import User, Post, Message, Notification, Favourite, Reaction
 
 from app.translate import translate
@@ -258,6 +259,15 @@ def add_to_favorites():
     favourite = Favourite(body=post.body, current_id=current_user.id, author=post.author, timestamp=post.timestamp)
     print(current_user.id);
     db.session.add(favourite)
+    db.session.commit()
+    return redirect(url_for('main.user', username=post.author.username))
+
+@bp.route('/delete_post', methods=['POST'])
+@login_required
+def delete_post():
+    post_id = request.form.get('post_id')
+    post = Post.query.get(post_id)
+    db.session.delete(post)
     db.session.commit()
     return redirect(url_for('main.user', username=post.author.username))
 
