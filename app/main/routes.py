@@ -7,7 +7,8 @@ from langdetect import detect, LangDetectException
 from app import db
 from app.main.forms import EditProfileForm, EmptyForm, PostForm, SearchForm, \
     MessageForm
-from app.models import User, Post, Message, Notification, Reaction
+from app.models import User, Post, Message, Notification, Favourite, Reaction
+
 from app.translate import translate
 from app.main import bp
 
@@ -230,6 +231,35 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+@bp.route('/favourites')
+@login_required
+def favourites():
+    page = request.args.get('page', 1, type=int)
+    favourites = Favourite.query.filter_by(current_id=current_user.id)\
+                  .order_by(Favourite.timestamp.desc())\
+                  .paginate(page=page,
+                            per_page=current_app.config['POSTS_PER_PAGE'],
+                            error_out=False)
+    next_url = url_for('main.favourites', page=favourites.next_num) \
+        if favourites.has_next else None
+    prev_url = url_for('main.favourites', page=favourites.prev_num) \
+        if favourites.has_prev else None
+    return render_template('favourites.html', title=_('Favourites'),
+                           favourites=favourites.items, next_url=next_url,
+                           prev_url=prev_url)
+
+
+@bp.route('/add_to_favorites', methods=['POST'])
+@login_required
+def add_to_favorites():
+    post_id = request.form.get('post_id')
+    post = Post.query.get(post_id)
+    favourite = Favourite(body=post.body, current_id=current_user.id, author=post.author, timestamp=post.timestamp)
+    print(current_user.id);
+    db.session.add(favourite)
+    db.session.commit()
+    return redirect(url_for('main.user', username=post.author.username))
 
 @bp.route('/react_to_post', methods=['POST'])
 @login_required

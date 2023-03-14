@@ -15,6 +15,7 @@
                 {% endset %}
                 {{ _('%(username)s said %(when)s',
                     username=user_link, when=moment(post.timestamp).fromNow()) }}
+                <button class="btn btn-sm btn-outline-secondary float-right" type="button" onclick="addToFavorites('{{ post.id }}')">Favourite</button>
                 <br>
                 <span id="post{{ post.id }}">{{ post.body }}</span>
                 {% if post.language and post.language != g.locale %}
@@ -57,6 +58,23 @@
             </td>
         </tr>
     </table>
+
+    <script>
+        function addToFavorites(post_id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/add_to_favorites');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // success
+                }
+                else if (xhr.status !== 200) {
+                    // error
+                }
+            };
+            xhr.send('post_id=' + post_id);
+        }
+        </script>
 
 <script>
   function react_to_post(post_id, reaction, currentuser) {
