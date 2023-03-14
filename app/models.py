@@ -247,7 +247,11 @@ class Post(SearchableMixin, db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
-
+    reaction_like = db.Column(db.Integer, default=0)
+    reaction_dislike = db.Column(db.Integer, default=0)
+    reaction_heart = db.Column(db.Integer, default=0)
+    reaction_laugh = db.Column(db.Integer, default=0)
+    reaction_angry = db.Column(db.Integer, default=0)
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
@@ -261,7 +265,6 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
-
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -291,3 +294,12 @@ class Task(db.Model):
     def get_progress(self):
         job = self.get_rq_job()
         return job.meta.get('progress', 0) if job is not None else 100
+
+class Reaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    reaction_type = db.Column(db.String(128))
+
+    def __repr__(self):
+        return '<Reaction {}>'.format(self.reaction_type)
