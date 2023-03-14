@@ -94,6 +94,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    is_verified = db.Column(db.Boolean, default=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
@@ -148,11 +149,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
                 followers.c.follower_id == self.id)
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
-
-    def get_reset_password_token(self, expires_in=600):
-        return jwt.encode(
-            {'reset_password': self.id, 'exp': time() + expires_in},
-            current_app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
     def verify_reset_password_token(token):
@@ -249,7 +245,11 @@ class Post(SearchableMixin, db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
-
+    reaction_like = db.Column(db.Integer, default=0)
+    reaction_dislike = db.Column(db.Integer, default=0)
+    reaction_heart = db.Column(db.Integer, default=0)
+    reaction_laugh = db.Column(db.Integer, default=0)
+    reaction_angry = db.Column(db.Integer, default=0)
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
@@ -263,7 +263,6 @@ class Message(db.Model):
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
-
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -303,3 +302,12 @@ class Favourite(SearchableMixin, db.Model):
     current_id = db.Column(db.Integer)
     def __repr__(self):
         return '<Favourite {}>'.format(self.body)
+
+class Reaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    reaction_type = db.Column(db.String(128))
+
+    def __repr__(self):
+        return '<Reaction {}>'.format(self.reaction_type)

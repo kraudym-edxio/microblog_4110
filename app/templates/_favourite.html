@@ -16,6 +16,7 @@
                 {{ _('%(username)s said %(when)s',
                     username=user_link, when=moment(favourite.timestamp).fromNow()) }}
                     <button class="btn btn-sm btn-outline-danger float-right" type="button" onclick="deleteFavourite('{{ favourite.id }}')">Delete</button>
+
                 <br>
                 <span id="favourite{{ favourite.id }}">{{ favourite.body }}</span>
             </td>
@@ -40,3 +41,4 @@
             xhr.send('favourite_id=' + favourite_id);
         }
         </script>
+    </table>
