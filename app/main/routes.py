@@ -257,7 +257,6 @@ def add_to_favorites():
     post_id = request.form.get('post_id')
     post = Post.query.get(post_id)
     favourite = Favourite(body=post.body, current_id=current_user.id, author=post.author, timestamp=post.timestamp)
-    print(current_user.id);
     db.session.add(favourite)
     db.session.commit()
     return redirect(url_for('main.user', username=post.author.username))
@@ -270,6 +269,16 @@ def delete_post():
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('main.user', username=post.author.username))
+
+
+@bp.route('/delete_favourite', methods=['POST'])
+@login_required
+def delete_favourite():
+    favourite_id = request.form.get('favourite_id')
+    favourite = Favourite.query.get(favourite_id)
+    db.session.delete(favourite)
+    db.session.commit()
+    return jsonify({'message': 'Favourite deleted successfully'}) 
 
 @bp.route('/react_to_post', methods=['POST'])
 @login_required
