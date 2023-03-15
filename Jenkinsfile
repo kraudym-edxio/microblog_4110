@@ -18,6 +18,8 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 withEnv(["PATH=/usr/local/bin:$PATH"]) {
+                  sh 'pwd'
+                  sh 'ls'
                     sh 'pytest --rootdir="/var/lib/jenkins/workspace/microblog_pipeline-update-v2/unitTests/test_archive.py"'
                 }
             }
