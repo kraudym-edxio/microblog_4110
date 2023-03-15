@@ -20,8 +20,8 @@ pipeline {
         stage('Unit Tests') {
           
             steps {
-              withPythonEnv('python') {
-              sh 'pytest'
+              withPythonEnv('Python310') {
+              sh 'idk'
             }
         }
   }
