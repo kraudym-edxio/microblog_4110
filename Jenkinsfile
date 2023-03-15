@@ -17,7 +17,10 @@ pipeline {
     }
         stage('Unit Tests') {
             steps {
-              sh 'pytest'
+                withEnv(["PATH=/usr/local/bin:$PATH"]) {
+                  sh 'pwd'
+                    sh 'pytest --rootdir=/path/to/rootdir'
+                }
             }
         }
 
