@@ -15,22 +15,12 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
-
-
-
-    stage('Build') {
-      steps {
-          echo 'Building'
-          sh 'sudo docker build --tag $IMAGE_NAME .'
-      }
-    }
-
-            stage('Unit Tests') {
+        stage('Unit Tests') {
             steps {
                 withEnv(["PATH=/usr/local/bin:$PATH"]) {
                   sh 'pwd'
                   sh 'ls'
-                    sh 'pytest --rootdir="/var/lib/jenkins/workspace/microblog_pipeline-update-v2/"'
+                    sh 'pytest'
                 }
             }
         }
@@ -39,6 +29,14 @@ pipeline {
         steps {
           echo 'Integration tests'
         }
+    }
+
+
+    stage('Build') {
+      steps {
+          echo 'Building'
+          sh 'sudo docker build --tag $IMAGE_NAME .'
+      }
     }
     /**
 
