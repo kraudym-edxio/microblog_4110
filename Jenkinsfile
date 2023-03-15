@@ -18,7 +18,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 withEnv(["PATH=/usr/local/bin:$PATH"]) {
-                    sh 'pytest unitTests/test_archive.py'
+                    sh 'pytest --rootdir="/var/lib/jenkins/workspace/microblog_pipeline-update-v2/unitTests/test_archive.py"'
                 }
             }
         }
