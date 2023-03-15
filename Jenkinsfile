@@ -16,8 +16,9 @@ pipeline {
       }
     }
 
-    withPythonEnv('python') {
+    
         stage('Unit Tests') {
+          withPythonEnv('python') {
             steps {
               sh 'pytest'
             }
