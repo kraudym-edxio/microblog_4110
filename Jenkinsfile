@@ -18,9 +18,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 withEnv(["PATH=/usr/local/bin:$PATH"]) {
-                  sh 'pwd'
-                  sh 'ls'
-                    sh 'pytest'
+                  sh 'pytest'
                 }
             }
         }
