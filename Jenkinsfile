@@ -18,7 +18,7 @@ pipeline {
 
 stage('Make Virtual Env') {
             steps {
-                withPythonEnv('Python3') {
+                withPythonEnv('/usr/bin/python3') {
                     sh 'pip install -r requirements.txt'
                 }
             }
@@ -26,7 +26,7 @@ stage('Make Virtual Env') {
     
 stage('Unit Tests') {
     steps {
-        withPythonEnv('/mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/python3') {
+        withPythonEnv('/usr/bin/python3') {
           sh 'python3 --version'
             sh 'pytest'
         }
