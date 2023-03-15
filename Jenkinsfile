@@ -17,7 +17,7 @@ pipeline {
     }
     stage('Unit tests') {
         steps {
-          sh 'pytest unitTests/test_archive.py'
+          sh 'pytest'
         }
     }
 
@@ -65,7 +65,7 @@ pipeline {
       }
       failure {
           echo 'Pipeline failed'
-          discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
+          //discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
 
       }
     }
