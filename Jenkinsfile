@@ -21,7 +21,7 @@ pipeline {
           
             steps {
               withPythonEnv('/usr/bin/python3') {
-                source "/mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/activate"
+                sh 'source "/mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/activate"'
                 sh 'pytest'
             }
         }
