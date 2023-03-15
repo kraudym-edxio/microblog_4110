@@ -21,7 +21,7 @@ pipeline {
           
             steps {
               withPythonEnv('/usr/bin/python3') {
-              sh 'idk'
+                sh 'pytest'
             }
         }
   }
