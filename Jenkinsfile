@@ -15,21 +15,13 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
-
-stage('Make Virtual Env') {
-            steps {
-                withPythonEnv('/usr/bin/python3') {
-                    sh 'pip install -r requirements.txt'
-                    sh 'pip install pytest'
-                }
-            }
-        }
     
 stage('Unit Tests') {
     steps {
         withPythonEnv('/usr/bin/python3') {
-          sh 'python3 --version'
-            sh 'pytest'
+          sh 'pip install -r requirements.txt'
+          sh 'pip install pytest'
+          sh 'pytest'
         }
     }
 }
