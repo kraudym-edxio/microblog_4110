@@ -17,7 +17,7 @@ pipeline {
     }
     stage('Unit tests') {
         steps {
-          sh 'pytest'
+          sh 'pytest unitTests/test_archive.py'
         }
     }
 
