@@ -17,6 +17,7 @@ pipeline {
     }
         stage("Test") {
             steps {
+              sh 'list'
                 sh """
                     source env/bin/activate
 
