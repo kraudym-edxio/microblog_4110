@@ -15,20 +15,17 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
-
-  stage('Unit tests') {
+    stage('Unit tests') {
         steps {
           echo 'Integration tests'
         }
     }
-  }
 
-  stage('Integration tests') {
+    stage('Integration tests') {
         steps {
           echo 'Integration tests'
         }
     }
-  }
 
 
     stage('Build') {
@@ -36,8 +33,7 @@ pipeline {
           echo 'Building'
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
-    }
-    """
+    }"""
      stage('SonarQube analysis') {
     
       steps {
@@ -46,8 +42,7 @@ pipeline {
 				sh "/usr/local/bin/sonar-scanner -Dsonar.projectKey=projectkey -Dsonar.sources=."    		    
     		}
       }
-    }
-    """
+    }"""
     stage('Deploy') {
       steps {
           echo 'Deploying'
@@ -57,6 +52,7 @@ pipeline {
       }
     }
 
+  }
 
     post {
         always {
