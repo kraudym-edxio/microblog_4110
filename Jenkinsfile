@@ -16,6 +16,13 @@ pipeline {
       }
     }
 
+stage('Make Virtual Env') {
+            steps {
+                withPythonEnv('Python3') {
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
     
 stage('Unit Tests') {
     steps {
