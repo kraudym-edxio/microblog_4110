@@ -20,11 +20,10 @@ pipeline {
 stage('Unit Tests') {
     steps {
         withPythonEnv('/mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/python3') {
-            sh 'source /mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/activate && pytest'
+            sh 'pytest'
         }
     }
 }
-
 
 
 
