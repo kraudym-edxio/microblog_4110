@@ -17,10 +17,11 @@ pipeline {
     }
         stage('Unit Tests') {
             steps {
-                //withEnv(["PATH=/var/lib/jenkins/workspace/microblog_pipeline-update-v2/env:$PATH"]) {
-                  //sh 'pwd'
-                    sh 'pytest'
-                //}
+                withEnv(["PATH=/var/lib/jenkins/workspace/microblog_pipeline-update-v2/env:$PATH"]) {
+                  sh 'pwd'
+                  sh 'ls'
+                  sh 'pytest'
+                }
             }
         }
 
