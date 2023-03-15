@@ -17,7 +17,9 @@ pipeline {
     }
         stage('Unit Tests') {
             steps {
-                sh 'pytest unitTests/test_archive.py'
+                withEnv(["PATH=/usr/local/bin:$PATH"]) {
+                    sh 'pytest unitTests/test_archive.py'
+                }
             }
         }
 
