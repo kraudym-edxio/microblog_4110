@@ -1,14 +1,17 @@
 import time
 from selenium import webdriver
 from misc_methods import reusable_components
-from locators import home_locators
+from locators import login_locators, home_locators
 from selenium.webdriver.common.by import By
 from misc_methods import config
 
 @given(u'I am on the home page')
 def step_impl(context):
-    print("Here")
     context.driver.get(config.base_url)
+    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, "test714")
+    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, "test714")
+    reusable_components.click_on_element(context, login_locators.SIGN_IN_BTN)
+    time.sleep(2)
 
 @when(u'I enter {text} for my post')
 def step_impl(context, text):

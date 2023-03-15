@@ -11,7 +11,7 @@ def step_impl(context):
     pass
     context.driver.get(config.register_url)
 
-@when(u'I enter credentials {username}, {email} and {password}')
+@when(u'I enter the credentials {username}, {email} and {password}')
 def step_impl(context, username, email, password):
     reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, username)
     reusable_components.send_keys_to_element(context, login_locators.EMAIL_FIELD, email)
@@ -22,7 +22,7 @@ def step_impl(context, username, email, password):
 def step_impl(context):
     reusable_components.click_on_element(context, login_locators.SIGN_IN_BTN)
 
-@then(u'I should be redirected to the Sign In page')
+@then(u'I should be redirected to Sign In page')
 def step_impl(context):
     time.sleep(5)
     assert reusable_components.get_current_url(context) == 'http://127.0.0.1:5000/auth/login'
@@ -32,8 +32,8 @@ def step_impl(context):
     text = reusable_components.get_text_of_an_element(context, [By.CSS_SELECTOR, '[class="alert alert-info"]'])
     assert text == "Congratulations, you are now a registered user!"
 
-@then(u'I should see an error')
+@then(u'I should see an error message')
 def step_impl(context):
     text = ""
     text = reusable_components.get_text_of_an_element(context, [By.CSS_SELECTOR, '[class="help-block"]'])
-    assert len(text) is not 0
+    assert len(text) != 0

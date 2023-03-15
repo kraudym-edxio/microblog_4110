@@ -11,5 +11,5 @@ Feature: Manage Profile
         Then I should see my profile information changed
     Examples:
         | username      |   aboutme     |
-        | test501       |   test502      |
+        | test502       |   test502      |
 

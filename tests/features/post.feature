@@ -1,4 +1,4 @@
-Feature: Post
+Feature: Posting
 
     Scenario Outline: Successful post
         Given I am on the home page
@@ -6,4 +6,5 @@ Feature: Post
         And click the submit button
         Then I should be see a message saying my post is live
     Examples:
-        | text      |   Hello World!      |
+        | text              | 
+        | Hello World!      |
