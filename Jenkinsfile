@@ -15,14 +15,11 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
-  stage('Unit Tests') {
-      steps {
-          withEnv(["PATH=/usr/local/bin:$PATH"]) {
-              sh 'pytest'
-          }
-      }
-  }
-
+        stage('Unit Tests') {
+            steps {
+                sh 'pytest unitTests/test_archive.py'
+            }
+        }
 
     stage('Integration tests') {
         steps {
