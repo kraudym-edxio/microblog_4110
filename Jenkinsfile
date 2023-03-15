@@ -17,7 +17,7 @@ pipeline {
     }
         stage('Unit Tests') {
             steps {
-                echo 'unittests'
+                sh 'pytest'
             }
         }
 
