@@ -17,6 +17,7 @@ pipeline {
     }
         stage("Test") {
             steps {
+              sh 'pwd'
               sh 'ls'
                 sh """
                     source env/bin/activate
