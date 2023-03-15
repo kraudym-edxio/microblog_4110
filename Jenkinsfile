@@ -17,7 +17,7 @@ pipeline {
     }
     stage('Unit tests') {
         steps {
-          echo 'Integration tests'
+          sh 'pytest'
         }
     }
 
