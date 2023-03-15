@@ -7,7 +7,6 @@ pipeline {
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
       BUILD_URL = "http://127.0.0.1:5000/"
-      VENV_PATH = "/var/lib/jenkins/workspace/microblog_pipeline-update-v2/env"
   }
   
   stages {
@@ -19,11 +18,8 @@ pipeline {
         stage("Test") {
             steps {
                 sh """
-                    # Activate the virtual environment
-                    . ${VENV_PATH}/bin/activate
+                    source env/bin/activate
 
-                    # Install pytest if it's not already installed
-                    pip install pytest
 
                     # Run pytest
                     pytest
