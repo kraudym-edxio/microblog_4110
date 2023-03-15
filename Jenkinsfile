@@ -6,7 +6,7 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://127.0.0.1:5000/"
+      BUILD_URL = "http://172.20.99.186:5000/"
   }
   
   stages {
@@ -41,7 +41,7 @@ stage('Unit Tests') {
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
-    /**
+
 
      stage('SonarQube analysis') {
     
@@ -51,7 +51,8 @@ stage('Unit Tests') {
 				sh "/usr/local/bin/sonar-scanner -Dsonar.projectKey=projectkey -Dsonar.sources=."    		    
     		}
       }
-    }*/
+    }
+    
     stage('Deploy') {
       steps {
           echo 'Deploying'
