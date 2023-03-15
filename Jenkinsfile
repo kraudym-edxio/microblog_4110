@@ -17,7 +17,7 @@ pipeline {
     }
         stage('Unit Tests') {
             steps {
-                withEnv(["PATH=/usr/local/bin:$PATH"]) {
+                withEnv(["PATH=/mnt/d/Documents/School/COMP 4110/Projects/microblogsophie:$PATH"]) {
                   sh 'pytest'
                 }
             }
