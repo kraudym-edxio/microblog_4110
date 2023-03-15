@@ -1,4 +1,4 @@
-Feature: Favrotie Status
+Feature: Status Reactions
 
   Scenario Outline: Successful login
     Given I am on the login page
@@ -8,9 +8,9 @@ Feature: Favrotie Status
     # And I should see a welcome message with my username
       
     Given I have posted a status update
-    When I click on the fav button next to the status update
-    Then I move to Favorite section
-    And I see the new status in favorite section
+    And I go to explore
+    When I click on the fav button next to the status update I want to delete
+    Then the fav counter next to the react emoji should be updated
     Examples: 
       | username | password |
       | sohailb  | test714  |
