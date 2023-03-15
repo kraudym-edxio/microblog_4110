@@ -8,6 +8,7 @@ import random
 import string
 from selenium.common.exceptions import TimeoutException
 
+global status_text
 status_text = None
 prev_fav_count = None
 new_fav_count = None
@@ -15,6 +16,7 @@ new_fav_count = None
 
 @given(u'I have posted a status update')
 def step_impl(context):
+    global status_text
     digits = ''.join(random.sample(string.digits, 8))
     chars = ''.join(random.sample(string.ascii_letters, 15))
     status_text = digits + chars
@@ -37,6 +39,7 @@ def step_impl(context):
 
 @then(u'the status update should be permanently removed from my profile')
 def step_impl(context):
+    global status_text
     time.sleep(2)
     notFound = None
     try:
@@ -67,3 +70,19 @@ def step_impl(context):
     print('prev_fav_count',prev_fav_count)
     print('new_fav_count',new_fav_count)
     assert prev_fav_count != new_fav_count
+
+
+@when(u'I click on the fav button next to the status update')
+def step_impl(context):
+    reusable_components.click_on_element(context, [By.XPATH, '//button[text()="Favourite"]'])
+
+@then(u'I move to Favorite section')
+def step_impl(context):
+    reusable_components.click_on_element(context, [By.XPATH, '//a[text()="Favourites"]'])
+    assert 'favourites' in reusable_components.get_current_url(context)
+
+
+@then(u'I see the new status in favorite section')
+def step_impl(context):
+    global status_text
+    assert reusable_components.element_is_displayed(context, [By.XPATH, '//span[text()="{}"]'.format(status_text)])
