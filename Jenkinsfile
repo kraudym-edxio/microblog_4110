@@ -20,7 +20,7 @@ pipeline {
               sh 'pwd'
               sh 'ls'
                 sh """
-                    source env/bin/activate
+                    source /mnt/d/Documents/School/COMP 4110/Projects/microblog-4110/env/bin/activate
 
 
                     # Run pytest
