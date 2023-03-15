@@ -33,7 +33,9 @@ pipeline {
           echo 'Building'
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
-    }"""
+    }
+    /**
+
      stage('SonarQube analysis') {
     
       steps {
@@ -42,7 +44,7 @@ pipeline {
 				sh "/usr/local/bin/sonar-scanner -Dsonar.projectKey=projectkey -Dsonar.sources=."    		    
     		}
       }
-    }"""
+    }*/
     stage('Deploy') {
       steps {
           echo 'Deploying'
