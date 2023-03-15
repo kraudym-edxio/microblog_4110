@@ -20,7 +20,7 @@ pipeline {
         stage('Unit Tests') {
           
             steps {
-              withPythonEnv('Python310') {
+              withPythonEnv('/mnt/c/Users/admin/AppData/Local/Programs/Python/Python310') {
               sh 'idk'
             }
         }
