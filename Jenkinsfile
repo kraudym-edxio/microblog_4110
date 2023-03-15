@@ -7,6 +7,7 @@ pipeline {
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
       BUILD_URL = "http://127.0.0.1:5000/"
+      VENV_PATH = "/var/lib/jenkins/workspace/microblog_pipeline-update-v2/env"
   }
   
   stages {
@@ -15,13 +16,18 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/pipeline-update-v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
-        stage('Unit Tests') {
+        stage("Test") {
             steps {
-                withEnv(["PATH=/var/lib/jenkins/workspace/microblog_pipeline-update-v2/env:$PATH"]) {
-                  sh 'pwd'
-                  sh 'ls'
-                  sh 'pytest'
-                }
+                sh """
+                    # Activate the virtual environment
+                    . ${VENV_PATH}/bin/activate
+
+                    # Install pytest if it's not already installed
+                    pip install pytest
+
+                    # Run pytest
+                    pytest
+                """
             }
         }
 
