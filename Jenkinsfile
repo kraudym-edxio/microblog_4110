@@ -20,6 +20,7 @@ stage('Make Virtual Env') {
             steps {
                 withPythonEnv('/usr/bin/python3') {
                     sh 'pip install -r requirements.txt'
+                    sh 'pip install pytest'
                 }
             }
         }
