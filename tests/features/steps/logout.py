@@ -7,8 +7,6 @@ from misc_methods import config
 previous_url = ''
 @given(u'I am in the login page')
 def step_impl(context):
-    print('here 10222')
-    pass
     context.driver.get(config.base_url)
     
 
@@ -22,12 +20,6 @@ def step_impl(context):
 def step_impl(context):
     time.sleep(5)
    
-
-
-@when(u'I enter my credentials {username} and {password}')
-def step_impl(context, username, password):
-    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, username)
-    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, password)
 
 @then(u'when I click the logout button')
 def step_impl(context):
