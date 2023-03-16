@@ -16,15 +16,18 @@ pipeline {
       }
     }
     
+	stage('Unit Tests') {
+		steps {
+			withPythonEnv('/usr/bin/python3') {
+			  sh 'pip install -r requirements.txt'
+			  sh 'pip install pytest'
+			  sh 'pytest'
+			}
+		}
+	}
 
 
 
-
-    stage('Integration tests') {
-        steps {
-          echo 'Integration tests'
-        }
-    }
 
 
     stage('Build') {
@@ -53,6 +56,17 @@ pipeline {
           sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
+	
+		stage('Integration tests') {
+			steps {
+				withPythonEnv('/usr/bin/python3') {
+				  sh 'pip install -r requirements.txt'
+				  sh 'cd tests'
+				  sh 'behave features/'
+				}
+			}
+		}
+
 
   }
 
