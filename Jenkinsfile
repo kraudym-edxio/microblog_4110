@@ -60,7 +60,7 @@ pipeline {
 		stage('Integration tests') {
 			steps {
 				withPythonEnv('/usr/bin/python3') {
-          sh 'ls'
+          sh 'behave /var/lib/jenkins/workspace/microblog_v2/tests/features/'
 				}
 			}
 		}
