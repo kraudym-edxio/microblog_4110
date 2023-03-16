@@ -8,8 +8,8 @@ from misc_methods import config
 @given(u'I am on the home page')
 def step_impl(context):
     context.driver.get(config.base_url)
-    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, "test714")
-    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, "test714")
+    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, config.user_name)
+    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, config.user_password)
     reusable_components.click_on_element(context, login_locators.SIGN_IN_BTN)
     time.sleep(2)
 
