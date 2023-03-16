@@ -60,8 +60,7 @@ pipeline {
 		stage('Integration tests') {
 			steps {
 				withPythonEnv('/usr/bin/python3') {
-          sh 'cd tests'
-          sh 'pwd'
+          sh 'ls'
 				}
 			}
 		}
