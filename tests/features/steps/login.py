@@ -5,10 +5,10 @@ from locators import login_locators
 from selenium.webdriver.common.by import By
 from misc_methods import config
 previous_url = ''
+
+
 @given(u'I am on the login page')
 def step_impl(context):
-    print('here 10222')
-    pass
     context.driver.get(config.base_url)
     
 
@@ -33,10 +33,19 @@ def step_impl(context):
         print('expected text not found in {}'.format(text))
 
 
-@when(u'I enter credentials {username} and {password}')
-def step_impl(context, username, password):
-    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, username)
-    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, password)
+@when(u'I enter {cred_type} login credentials')
+def step_impl(context, cred_type):
+    user_name = None
+    user_password = None
+
+    if cred_type == 'valid':
+        user_name = config.user_name
+        user_password = config.user_password
+    else:
+        user_name = 'test'
+        user_password = 'test'
+    reusable_components.send_keys_to_element(context, login_locators.USERNAME_FIELD, user_name)
+    reusable_components.send_keys_to_element(context, login_locators.PASSWORD_FIELD, user_password)
 
 @then(u'I should see an error')
 def step_impl(context):

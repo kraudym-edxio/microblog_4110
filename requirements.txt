@@ -49,3 +49,4 @@ WTForms==2.3.3
 #gunicorn==20.1.0
 selenium==4.0
 behave==1.2.6
+allure-behave==2.8.29

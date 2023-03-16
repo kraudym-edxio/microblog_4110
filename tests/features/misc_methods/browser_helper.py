@@ -1,5 +1,3 @@
-import os
-import shutil
 import socketserver
 from pathlib import Path
 
