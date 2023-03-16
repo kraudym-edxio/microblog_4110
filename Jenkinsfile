@@ -6,21 +6,38 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://18.219.161.171:5000/"
+      BUILD_URL = "http://172.20.99.186:5000/"
   }
   
   stages {
     stage('Checkout') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '353d0ea9-ea5a-4012-91cc-887fcd6abfee', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
+    
+	stage('Unit Tests') {
+		steps {
+			withPythonEnv('/usr/bin/python3') {
+			  sh 'pip install -r requirements.txt'
+			  sh 'pip install pytest'
+			  sh 'pytest'
+			}
+		}
+	}
+
+
+
+
+
     stage('Build') {
       steps {
           echo 'Building'
           sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
+
+
      stage('SonarQube analysis') {
     
       steps {
@@ -30,6 +47,7 @@ pipeline {
     		}
       }
     }
+    
     stage('Deploy') {
       steps {
           echo 'Deploying'
@@ -38,11 +56,18 @@ pipeline {
           sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
-    stage('Integration tests') {
-        steps {
-          echo 'Integration tests'
-        }
-    }
+	
+		stage('Integration tests') {
+			steps {
+				withPythonEnv('/usr/bin/python3') {
+				  sh 'pip install -r requirements.txt'
+				  sh 'cd tests'
+				  sh 'behave features/'
+				}
+			}
+		}
+
+
   }
 
     post {
