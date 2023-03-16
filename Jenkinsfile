@@ -60,9 +60,9 @@ pipeline {
 		stage('Integration tests') {
 			steps {
 				withPythonEnv('/usr/bin/python3') {
-				  sh 'pip install -r requirements.txt'
-				  sh 'cd tests'
-				  sh 'behave features/'
+				  sh 'cd tests/'
+          sh 'pwd'
+          sh 'behave features/'
 				}
 			}
 		}
