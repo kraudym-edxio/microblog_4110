@@ -1,13 +1,37 @@
 from locust import HttpUser, task, between
 import time
+import json
+import sys
 
 class StressTester(HttpUser):
     wait_time = between(1, 5)
+    response_branch = {}
 
     def on_start(self):
         time.sleep(2)
-        self.register_user()
-        self.login()
+
+        # get all branches
+        headers = {"Content-Type": "application/json"}
+        response = self.client.get("/branches", headers=headers)
+        if response.status_code == 200:
+            response_branch_body = response.json()
+            response_branch = response_branch_body["data"]
+            print("Successfuly received all branches.")
+        else:
+            print("Failed to get branches.")
+            sys.exit(1)
+
+        if {"/auth/register": None} in response_branch:
+            self.register_user()
+            if {"/auth/login": None} in response_branch:
+                self.login()
+
+            else:
+                print("Login page not found.")
+                sys.exit(1)
+        else:
+            print("Registration page not found.")
+            sys.exit(1)
     
     def register_user(self):
         payload = {
@@ -22,6 +46,7 @@ class StressTester(HttpUser):
             print("New user registered successfully!")
         else:
             print("Failed to register user.")
+            sys.exit(1)
     
 
     def login(self):
@@ -36,8 +61,9 @@ class StressTester(HttpUser):
             print("Login successful!")
         else:
             print("Failed to login.")
+            sys.exit(1)
    
-    @task
+    @task(1)
     def my_task(self):
         pass
         time.sleep(1)
@@ -46,4 +72,5 @@ class StressTester(HttpUser):
             print("Navigation successful!")
         else:
             print("Failed to navigate to user page.")
+            sys.exit(1)
         

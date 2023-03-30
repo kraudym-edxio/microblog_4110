@@ -12,6 +12,7 @@ from app.models import User, Post, Message, Notification, Favourite, Reaction
 
 from app.translate import translate
 from app.main import bp
+from werkzeug.utils import import_string
 
 
 @bp.before_app_request
@@ -411,3 +412,30 @@ def react_to_post():
                 db.session.commit()
             print('done')
     return jsonify({'message': 'Reaction added successfully'})
+
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+
+@bp.route("/branches", methods=['GET'])
+def site_map():
+    routes = []
+    for rule in current_app.url_map.iter_rules():
+        try:
+            if rule.endpoint != 'static':
+                if hasattr(current_app.view_functions[rule.endpoint], 'import_name'):
+                    import_name = current_app.view_functions[rule.endpoint].import_name
+                    obj = import_string(import_name)
+                    routes.append({rule.rule: "%s\n%s" % (",".join(list(rule.methods)), obj.__doc__)})
+                else:
+                    routes.append({rule.rule: current_app.view_functions[rule.endpoint].__doc__})
+        except Exception as exc:
+            routes.append({rule.rule: 
+                           "(%s) INVALID ROUTE DEFINITION!!!" % rule.endpoint})
+            route_info = "%s => %s" % (rule.rule, rule.endpoint)
+            current_app.logger.error("Invalid route: %s" % route_info, exc_info=True)
+            # func_list[rule.rule] = obj.__doc__
+
+    return jsonify(code=200, data=routes)
