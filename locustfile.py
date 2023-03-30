@@ -67,7 +67,7 @@ class StressTester(HttpUser):
     @task(1)
     def my_task(self):
         pass
-        response = self.client.get("/user/user1")
+        response = self.client.get("/user")
         time.sleep(5)
         if response.status_code == 200:
             print("Navigation successful!")
