@@ -33,6 +33,18 @@ def login():
         return redirect(next_page)
     return render_template('auth/login.html', title='Sign In', form=form)
 
+@bp.route('/loginLocust', methods=['GET', 'POST'])
+def loginLocust():
+    body = request.get_json()
+    user = User.query.filter_by(username=body["username"]).first()
+    if user is None or not user.check_password(body["password"]):
+        return "Invalid username or password"
+    result = login_user(user)
+    if result is True:
+        return "login successful"
+    else:
+        return "login failed"
+
 
 @bp.route('/logout')
 def logout():
@@ -43,6 +55,7 @@ def logout():
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
+        print('Already authenticated')
         return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -51,10 +64,21 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(_('Congratulations, you are now a registered user!'))
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.login'))    
     return render_template('auth/register.html', title=_('Register'),
                            form=form)
 
+@bp.route('/registerLocust', methods=['GET', 'POST'])
+def registerLocust():
+    body = request.get_json()
+    toBeVerified = 0
+    if body["is_verified"] == 1:
+        toBeVerified = True
+    user = User(username=body["username"], email=body["email"], is_verified = toBeVerified)
+    user.set_password(body["password"])
+    db.session.add(user)
+    db.session.commit()
+    return "Registration successful!"
 
 @bp.route('/verify_email/<token>')
 def verify_email(token):
