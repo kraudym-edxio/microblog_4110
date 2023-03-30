@@ -25,7 +25,7 @@ class StressTester(HttpUser):
             self.register_user()
             if {"/auth/login": None} in response_branch:
                 self.login()
-
+                time.sleep(5)
             else:
                 print("Login page not found.")
                 sys.exit(1)
@@ -37,11 +37,11 @@ class StressTester(HttpUser):
         payload = {
             "username": "LocustTester",
             "email": "tester@example.com",
-            "password": "mypassword"
+            "password": "mypassword",
+            "is_verified": True
         }
         headers = {"Content-Type": "application/json"}
-        response = self.client.post("/auth/register", json=payload, headers=headers)
-
+        response = self.client.post("/auth/registerLocust", json=payload, headers=headers)
         if response.status_code == 200:
             print("New user registered successfully!")
         else:
@@ -55,7 +55,7 @@ class StressTester(HttpUser):
             "password": "mypassword45"
         }
         headers = {"Content-Type": "application/json"}
-        response = self.client.post("/auth/login", json=payload, headers=headers)
+        response = self.client.post("/auth/loginLocust", json=payload, headers=headers)
 
         if response.status_code == 200:
             print("Login successful!")
@@ -66,8 +66,8 @@ class StressTester(HttpUser):
     @task(1)
     def my_task(self):
         pass
-        time.sleep(1)
         response = self.client.get("/user/LocustTester")
+        time.sleep(5)
         if response.status_code == 200:
             print("Navigation successful!")
         else:
