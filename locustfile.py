@@ -1,7 +1,11 @@
 from locust import HttpUser, task, between
 import time
-import json
-import sys
+
+USER_CREDENTIALS = [
+    ("user1", "password", "user1@email.com"),
+    ("user2", "password", "user2@email.com"),
+    ("user3", "password", "user3@email.com"),
+]
 
 class StressTester(HttpUser):
     wait_time = between(1, 5)
@@ -19,25 +23,24 @@ class StressTester(HttpUser):
             print("Successfuly received all branches.")
         else:
             print("Failed to get branches.")
-            sys.exit(1)
 
-        if {"/auth/register": None} in response_branch:
-            self.register_user()
-            if {"/auth/login": None} in response_branch:
-                self.login()
+        if len(USER_CREDENTIALS) > 0:
+            user, passw, email = USER_CREDENTIALS.pop()
+        if {"/auth/registerLocust": None} in response_branch:
+            self.register_user(user, passw, email)
+            if {"/auth/loginLocust": None} in response_branch:
+                self.login(user, passw)
                 time.sleep(5)
             else:
                 print("Login page not found.")
-                sys.exit(1)
         else:
             print("Registration page not found.")
-            sys.exit(1)
     
-    def register_user(self):
+    def register_user(self, user, passw, email):
         payload = {
-            "username": "LocustTester",
-            "email": "tester@example.com",
-            "password": "mypassword",
+            "username": user,
+            "email": email,
+            "password": passw,
             "is_verified": True
         }
         headers = {"Content-Type": "application/json"}
@@ -46,13 +49,12 @@ class StressTester(HttpUser):
             print("New user registered successfully!")
         else:
             print("Failed to register user.")
-            sys.exit(1)
     
 
-    def login(self):
+    def login(self, user, passw):
         payload = {
-            "username": "LocustTester",
-            "password": "mypassword45"
+            "username": user,
+            "password": passw
         }
         headers = {"Content-Type": "application/json"}
         response = self.client.post("/auth/loginLocust", json=payload, headers=headers)
@@ -61,16 +63,14 @@ class StressTester(HttpUser):
             print("Login successful!")
         else:
             print("Failed to login.")
-            sys.exit(1)
    
     @task(1)
     def my_task(self):
         pass
-        response = self.client.get("/user/LocustTester")
+        response = self.client.get("/user/user1")
         time.sleep(5)
         if response.status_code == 200:
             print("Navigation successful!")
         else:
             print("Failed to navigate to user page.")
-            sys.exit(1)
         
