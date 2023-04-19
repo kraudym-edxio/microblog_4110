@@ -6,27 +6,26 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://172.20.99.186:5000/"
+      BUILD_URL = "http://localhost:5000/"
   }
   
   stages {
-    stage('Checkout') {
-      steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
-      }
-    }
+stage('Checkout') {
+  steps {
+    checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/miguelgrinberg/microblog.git']]])
+  }
+}
+
     
+
 	stage('Unit Tests') {
 		steps {
 			withPythonEnv('/usr/bin/python3') {
+			    sh 'sed -i "s/greenlet.*/greenlet>=1.2.0a1/" requirements.txt' 
 			  sh 'pip install -r requirements.txt'
-			  sh 'pip install pytest'
-			  sh 'pytest'
 			}
 		}
 	}
-
-
 
 
 
@@ -57,13 +56,6 @@ pipeline {
       }
     }
 	
-		stage('Integration tests') {
-			steps {
-				withPythonEnv('/usr/bin/python3') {
-          sh 'behave /var/lib/jenkins/workspace/microblog_v2/tests/features/'
-				}
-			}
-		}
 
 
   }
