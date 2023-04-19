@@ -33,7 +33,7 @@ pipeline {
     stage('Build') {
       steps {
           echo 'Building'
-          //sh 'sudo docker build --tag $IMAGE_NAME .'
+          sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
 
@@ -51,9 +51,9 @@ pipeline {
     stage('Deploy') {
       steps {
           echo 'Deploying'
-          //sh 'sudo docker stop $CONTAINER_NAME || true'
-          //sh 'sudo docker rm $CONTAINER_NAME || true'
-          //sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
+          sh 'sudo docker stop $CONTAINER_NAME || true'
+          sh 'sudo docker rm $CONTAINER_NAME || true'
+          sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
 	
@@ -78,7 +78,7 @@ pipeline {
       }
       failure {
           echo 'Pipeline failed'
-          //discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
+          discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
 
       }
     }
