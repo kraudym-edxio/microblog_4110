@@ -10,29 +10,30 @@ pipeline {
   }
   
   stages {
-stage('Checkout') {
-  steps {
-    checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/miguelgrinberg/microblog.git']]])
-  }
-}
-
+    stage('Checkout') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/sophie']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
+      }
+    }
     
-
 	stage('Unit Tests') {
 		steps {
 			withPythonEnv('/usr/bin/python3') {
-			    sh 'sed -i "s/greenlet.*/greenlet>=1.2.0a1/" requirements.txt' 
 			  sh 'pip install -r requirements.txt'
+			  sh 'pip install pytest'
+			  sh 'pytest'
 			}
 		}
 	}
 
 
 
+
+
     stage('Build') {
       steps {
           echo 'Building'
-          sh 'sudo docker build --tag $IMAGE_NAME .'
+          //sh 'sudo docker build --tag $IMAGE_NAME .'
       }
     }
 
@@ -50,12 +51,20 @@ stage('Checkout') {
     stage('Deploy') {
       steps {
           echo 'Deploying'
-          sh 'sudo docker stop $CONTAINER_NAME || true'
-          sh 'sudo docker rm $CONTAINER_NAME || true'
-          sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
+          //sh 'sudo docker stop $CONTAINER_NAME || true'
+          //sh 'sudo docker rm $CONTAINER_NAME || true'
+          //sh 'sudo docker run -d -p 5000:5000 --name $CONTAINER_NAME flaskapp'
       }
     }
 	
+		stage('Integration tests') {
+			steps {
+				withPythonEnv('/usr/bin/python3') {
+				     sh 'python3 -c "import time; time.sleep(5)"'
+                    sh 'export PATH=$PATH:"/usr/local/bin/" && behave "/var/lib/jenkins/workspace/microblog local/tests/features"/'
+				}
+			}
+		}
 
 
   }
