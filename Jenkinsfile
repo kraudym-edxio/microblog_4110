@@ -6,13 +6,13 @@ pipeline {
       CONTAINER_NAME = "microblogApp1"
       IMAGE_NAME = "flaskapp"
       JOB_NAME = "Microblog Flask App"
-      BUILD_URL = "http://172.20.99.186:5000/"
+      BUILD_URL = "http://localhost:5000/"
   }
   
   stages {
     stage('Checkout') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/v2']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
+        checkout([$class: 'GitSCM', branches: [[name: '*/sophie']], extensions: [], userRemoteConfigs: [[credentialsId: '7931395e-9774-4856-96ac-a8be7159a77e', url: 'git@github.com:kraudym-edxio/microblog-4110.git']]])
       }
     }
     
@@ -60,7 +60,8 @@ pipeline {
 		stage('Integration tests') {
 			steps {
 				withPythonEnv('/usr/bin/python3') {
-          sh 'behave /var/lib/jenkins/workspace/microblog_v2/tests/features/'
+				     sh 'python3 -c "import time; time.sleep(5)"'
+                    sh 'export PATH=$PATH:"/usr/local/bin/" && behave "/var/lib/jenkins/workspace/microblog local/tests/features"/'
 				}
 			}
 		}
@@ -77,7 +78,7 @@ pipeline {
       }
       failure {
           echo 'Pipeline failed'
-          //discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
+          discordSend description: "Failure", footer: "COMP-4110", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://ptb.discord.com/api/webhooks/1075565484306608198/BVAdPnc8ZMuDZG9neaEnIBekuNErtmd9FRQPMV66LS3eEfxZI3OLR87izK096ILhnejJ"
 
       }
     }

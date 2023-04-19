@@ -10,6 +10,7 @@ def get_browser():
     global options
     port = get_free_port()
     options.add_argument("--no-sandbox")
+    options.add_argument("--headless")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--disable-site-isolation-trials')
     options.add_argument("--remote-debugging-port=" + str(port))
